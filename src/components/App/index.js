@@ -13,9 +13,6 @@ export default class App extends React.Component {
       allEvents: EventsData
     }
   }
-  componentDidMount () {
-    console.log(EventsData)
-  }
   render() {
     return <div className="App">
       <SearchBar/>
