@@ -11,7 +11,8 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       allEvents: EventsData,
-      renderEvents: EventsData
+      renderEvents: EventsData,
+      selectVal: 'all'
     }
   }
   onSelect (val) {
@@ -21,7 +22,7 @@ export default class App extends React.Component {
   render() {
     return <div className="App">
       <SearchBar/>
-      <ParamBar onSelect={(val)=>this.onSelect(val)}/>
+      <ParamBar onSelect={(val)=>this.onSelect(val)} value={this.state.selectVal}/>
       <EventsList elList = {this.state.renderEvents}/>
     </div>
   }
