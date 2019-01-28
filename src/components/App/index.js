@@ -15,9 +15,8 @@ export default class App extends React.Component {
     }
   }
   onSelect (val) {
-    const r = this.state.allEvents.filter(el=>el.type===val);
-    debugger;
-    this.setState({renderEvents: this.state.allEvents.filter(el=>el.type===val)})
+    if (val==='all') this.setState({renderEvents: this.state.allEvents})
+    else this.setState({renderEvents: this.state.allEvents.filter(el=>el.type===val)})
   }
   render() {
     return <div className="App">
