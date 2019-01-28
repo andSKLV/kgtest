@@ -1,0 +1,6 @@
+.SearchBar {
+  width: 80%;
+}
+.SearchBar input {
+  border-radius: 500rem !important;
+}
