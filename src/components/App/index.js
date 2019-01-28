@@ -10,14 +10,20 @@ export default class App extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      allEvents: EventsData
+      allEvents: EventsData,
+      renderEvents: EventsData
     }
+  }
+  onSelect (val) {
+    const r = this.state.allEvents.filter(el=>el.type===val);
+    debugger;
+    this.setState({renderEvents: this.state.allEvents.filter(el=>el.type===val)})
   }
   render() {
     return <div className="App">
       <SearchBar/>
-      <ParamBar/>
-      <EventsList elList = {this.state.allEvents}/>
+      <ParamBar onSelect={(val)=>this.onSelect(val)}/>
+      <EventsList elList = {this.state.renderEvents}/>
     </div>
   }
 }
