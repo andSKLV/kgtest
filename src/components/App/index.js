@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchBar from '../SearchBar';
-import ParamBar from '../ParamBar';
+import SortBar from '../SortBar';
+import FilterBar from '../FilterBar';
 import EventsList from '../EventsList';
 import EventsData from '../../tmp/events.json'
 
@@ -12,37 +13,55 @@ export default class App extends React.Component {
     this.state = {
       allEvents: EventsData,
       renderEvents: EventsData,
-      selectVal: 'none',
+      selectValue: 'none',
       searchValue: '',
+      filters: ['concert','exhibition'],
     }
   }
   componentDidCatch (err,info) {
     console.log(err,info);
   }
   onSelect (val) {
-    switch (val) {
-      case 'increase':
-        this.setState({renderEvents: this.state.renderEvents.sort((f,s)=>f.price-s.price)});
-        break;
-      case 'decrease':
-        this.setState({renderEvents: this.state.renderEvents.sort((f,s)=>s.price-f.price)})
-        break;
-      case 'none':
-        break;
-    }
+    this.setState({selectValue: val},()=>this.applyAll());
   }
   onChangeSearch (val) {
-    this.setState({searchValue:val});
-    if (val==='') {
-      this.setState({renderEvents: this.state.allEvents});
-      this.onSelect(this.state.selectVal);
+    debugger;
+    this.setState({searchValue:val},()=>this.applyAll());
+  }
+  onChangeFilter ({name,checked}) {
+    let filters = [];
+    const add = name => {
+      filters = [...this.state.filters,name];
     }
-    else this.setState({renderEvents: this.state.renderEvents.filter(el=>el.title.match(new RegExp(val,'gi')))})
+    const remove = name => {
+      filters = [...this.state.filters].filter(val=>val!==name);
+    }
+    (checked) ? add(name) : remove (name);
+    this.setState({filters},()=>this.applyAll())
+  }
+  applyAll () {
+    let elems = this.state.allEvents;
+    const {selectValue, searchValue, filters} = this.state;
+    elems = elems.filter(el=>el.title.match(new RegExp(searchValue,'gi')));
+    debugger;
+    switch (selectValue) {
+      case 'increase':
+        elems = elems.sort((f,s)=>f.price-s.price);
+        break;
+      case 'decrease':
+        elems = elems.sort((f,s)=>s.price-f.price);
+        break;
+      default:
+        break;
+    }
+    elems = elems.filter(el=>filters.includes(el.type));
+    this.setState({renderEvents: elems})
   }
   render() {
     return <div className="App">
       <SearchBar onChange = {(val)=>this.onChangeSearch(val)} value={this.state.searchValue}/>
-      <ParamBar onSelect={(val)=>this.onSelect(val)} value={this.state.selectVal}/>
+      <FilterBar onChange = {(el)=>this.onChangeFilter(el)}/>
+      <SortBar onSelect={(val)=>this.onSelect(val)} value={this.state.selectValue}/>
       <EventsList elList = {this.state.renderEvents}/>
     </div>
   }

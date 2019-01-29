@@ -1,12 +1,12 @@
 import React from 'react';
 import './index.css';
 
-const ParamBar = props =>{
+const SortBar = props =>{
   return (
-    <div className="ParamBar">
-      Param Bar
+    <div className="SortBar">
+      <div>Сортировать по:</div>
       <select className="ui compact selection dropdown" defaultValue={props.value} onChange={(e)=>props.onSelect(e.target.value)}>
-        <option value="none" disabled>Сортировать по</option>
+        <option value="none" disabled>-----</option>
         <option value="increase">увеличению цены</option>
         <option value="decrease">уменьшению цены</option>
       </select>
@@ -14,4 +14,4 @@ const ParamBar = props =>{
   )
 }
 
-export default ParamBar;
+export default SortBar;

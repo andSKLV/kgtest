@@ -1,0 +1,9 @@
+.SortBar {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.SortBar * {
+  margin-left: 8px;
+}
