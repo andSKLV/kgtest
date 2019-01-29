@@ -7,9 +7,9 @@ const ParamBar = props =>{
       <div>
         Param Bar
         <select className="ui compact selection dropdown" defaultValue={props.value} onChange={(e)=>props.onSelect(e.target.value)}>
-          <option value="all">Все</option>
-          <option value="concert">Концерты</option>
-          <option value="exhibition">Выставки</option>
+          <option value="none" disabled>Сортировать по</option>
+          <option value="increase">увеличению цены</option>
+          <option value="decrease">уменьшению цены</option>
         </select>
       </div>
     )

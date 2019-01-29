@@ -5,11 +5,12 @@ class EventBlock extends React.Component{
   constructor (props) {
     super(props)
     this.state = {
-      isFaved: props.isFaved || false
+      isFaved: props.isFaved || false,
+      id: props.id
     }
   }
   fav () {
-    this.setState({isFaved: !this.state.isFaved})
+    this.setState({isFaved: !this.state.isFaved});
   }
   render () {
     const isFaved = this.state.isFaved&&'faved'

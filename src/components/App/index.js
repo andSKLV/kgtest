@@ -12,12 +12,15 @@ export default class App extends React.Component {
     this.state = {
       allEvents: EventsData,
       renderEvents: EventsData,
-      selectVal: 'all'
+      selectVal: 'none'
     }
   }
+  componentDidCatch (err,info) {
+    console.log(err,info);
+  }
   onSelect (val) {
-    if (val==='all') this.setState({renderEvents: this.state.allEvents})
-    else this.setState({renderEvents: this.state.allEvents.filter(el=>el.type===val)})
+    if (val==='increase') this.setState({renderEvents: this.state.allEvents.sort((f,s)=>f.price-s.price)})
+    else this.setState({renderEvents: this.state.allEvents.sort((f,s)=>s.price-f.price)})
   }
   render() {
     return <div className="App">
