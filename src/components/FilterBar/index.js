@@ -17,6 +17,10 @@ const FilterBar = props =>{
         <input type="checkbox" name="exhibition" onChange={(e)=>props.onChange(e.target)} defaultChecked/>
         <label>Выставки</label>
       </div>
+      <div className="ui checkbox">
+        <input type="checkbox" name="favorites" onChange={(e)=>props.onCheckFavorites(e.target.checked)}/>
+        <label>Только избранные</label>
+      </div>
     </div>
   )
 }

@@ -16,16 +16,17 @@ export default class App extends React.Component {
       selectValue: 'none',
       searchValue: '',
       filters: ['concert','exhibition'],
+      onlyFavorites: false,
+      favorites: [],
     }
   }
   componentDidCatch (err,info) {
-    console.log(err,info);
+    console.error(err,info);
   }
   onSelect (val) {
     this.setState({selectValue: val},()=>this.applyAll());
   }
   onChangeSearch (val) {
-    debugger;
     this.setState({searchValue:val},()=>this.applyAll());
   }
   onChangeFilter ({name,checked}) {
@@ -39,11 +40,22 @@ export default class App extends React.Component {
     (checked) ? add(name) : remove (name);
     this.setState({filters},()=>this.applyAll())
   }
+  onCheckFavorites (isChecked) {
+    this.setState({onlyFavorites: isChecked},()=>this.applyAll())
+  }
+  onFavClick (id, isFaved) {
+    this.setState((prev) => {
+      const res = prev.allEvents.map(el=>{
+        if (el.id===id) el.isFavorite = isFaved;
+        return el;
+      })
+      return {allEvents: res}
+    })
+  }
   applyAll () {
     let elems = this.state.allEvents;
-    const {selectValue, searchValue, filters} = this.state;
+    const {selectValue, searchValue, filters, onlyFavorites} = this.state;
     elems = elems.filter(el=>el.title.match(new RegExp(searchValue,'gi')));
-    debugger;
     switch (selectValue) {
       case 'increase':
         elems = elems.sort((f,s)=>f.price-s.price);
@@ -55,14 +67,15 @@ export default class App extends React.Component {
         break;
     }
     elems = elems.filter(el=>filters.includes(el.type));
+    if (onlyFavorites) elems = elems.filter(el=>el.isFavorite);
     this.setState({renderEvents: elems})
   }
   render() {
     return <div className="App">
       <SearchBar onChange = {(val)=>this.onChangeSearch(val)} value={this.state.searchValue}/>
-      <FilterBar onChange = {(el)=>this.onChangeFilter(el)}/>
+      <FilterBar onChange = {(el)=>this.onChangeFilter(el)} onCheckFavorites={(isChecked)=>this.onCheckFavorites(isChecked)}/>
       <SortBar onSelect={(val)=>this.onSelect(val)} value={this.state.selectValue}/>
-      <EventsList elList = {this.state.renderEvents}/>
+      <EventsList elList = {this.state.renderEvents} onFavClick={(id,isFaved)=>this.onFavClick(id,isFaved)}/>
     </div>
   }
 }
