@@ -103,7 +103,12 @@ export default class App extends React.Component {
   render() {
     return <div className="App">
       <SearchBar onChange = {(val)=>this.onChangeSearch(val)} value={this.state.searchValue}/>
-      <FilterBar onChange = {(el)=>this.onChangeFilter(el)} onCheckFavorites={(isChecked)=>this.onCheckFavorites(isChecked)}/>
+      <FilterBar 
+        onChange = {(el)=>this.onChangeFilter(el)} 
+        onCheckFavorites={(isChecked)=>this.onCheckFavorites(isChecked)}
+        filters = {this.state.filters}
+        onlyFavorites = {this.state.onlyFavorites}
+      />
       <SortBar onSelect={(val)=>this.onSelect(val)} value={this.state.selectValue}/>
       <EventsList elList = {this.state.renderEvents} onFavClick={(id,isFaved)=>this.onFavClick(id,isFaved)}/>
     </div>

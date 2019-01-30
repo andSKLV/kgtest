@@ -18,7 +18,6 @@ const EventsList = props => {
     </div>)
     else return <div>Нет подходящий событий</div>
   }
-  console.log(props.elList);
   return makeList(props.elList)
   
 }

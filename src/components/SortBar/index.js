@@ -5,7 +5,7 @@ const SortBar = props =>{
   return (
     <div className="SortBar">
       <div>Сортировать по:</div>
-      <select className="ui compact selection dropdown" defaultValue={props.value} onChange={(e)=>props.onSelect(e.target.value)}>
+      <select className="ui compact selection dropdown" value={props.value} onChange={(e)=>props.onSelect(e.target.value)}>
         <option value="none" disabled>-----</option>
         <option value="increase">увеличению цены</option>
         <option value="decrease">уменьшению цены</option>

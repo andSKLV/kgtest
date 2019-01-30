@@ -13,7 +13,6 @@ function GetFromStore () {
   const saved = store.getItem('saved');
   const state = JSON.parse(saved);
   store.clear();
-  console.log(state);
   return state
 }
 export {
