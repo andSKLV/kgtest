@@ -7,3 +7,9 @@
 .SortBar * {
   margin-left: 8px;
 }
+@media (max-width: 550px) {
+  .SortBar {
+    flex-direction: column;
+    align-items: center;
+  }
+}

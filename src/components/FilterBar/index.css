@@ -8,3 +8,9 @@
 .FilterBar * {
   margin-left: 8px;
 }
+@media (max-width: 550px) {
+  .FilterBar {
+    flex-direction: column;
+    align-items: center;
+  }
+}
