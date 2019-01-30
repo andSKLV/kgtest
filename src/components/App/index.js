@@ -102,7 +102,7 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <Router>
+      <Router basename='/tests/kudago/'>
         <div className="App">
           <Route exact path='/' render={() => {
             return (
