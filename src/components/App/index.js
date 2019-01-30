@@ -1,8 +1,10 @@
 import React from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import SearchBar from '../SearchBar';
 import SortBar from '../SortBar';
 import FilterBar from '../FilterBar';
 import EventsList from '../EventsList';
+import EventPage from '../EventPage';
 import EventsData from '../../tmp/events.json'
 import {SaveToStore,GetFromStore} from './storeControl.js';
 
@@ -38,11 +40,9 @@ export default class App extends React.Component {
     }
     const nextState = {}
     Object.keys(savedState).forEach(key=>{
-      debugger;
       if (key!=='favorites'&&defaultState[key].toString()!==savedState[key].toString())  nextState[key]=savedState[key];
     })
     if (Object.keys(nextState).length) {
-      debugger;
       this.setState(nextState,()=>this.applyAll());
     }
   }
@@ -101,16 +101,46 @@ export default class App extends React.Component {
     SaveToStore(this.state);
   }
   render() {
-    return <div className="App">
-      <SearchBar onChange = {(val)=>this.onChangeSearch(val)} value={this.state.searchValue}/>
-      <FilterBar 
-        onChange = {(el)=>this.onChangeFilter(el)} 
-        onCheckFavorites={(isChecked)=>this.onCheckFavorites(isChecked)}
-        filters = {this.state.filters}
-        onlyFavorites = {this.state.onlyFavorites}
-      />
-      <SortBar onSelect={(val)=>this.onSelect(val)} value={this.state.selectValue}/>
-      <EventsList elList = {this.state.renderEvents} onFavClick={(id,isFaved)=>this.onFavClick(id,isFaved)}/>
-    </div>
+    return (
+      <Router>
+        <div className="App">
+        <Route exact path='/' render={()=>{
+          return (
+            <>
+              <SearchBar onChange = {(val)=>this.onChangeSearch(val)} value={this.state.searchValue}/>
+              <FilterBar 
+                onChange = {(el)=>this.onChangeFilter(el)} 
+                onCheckFavorites={(isChecked)=>this.onCheckFavorites(isChecked)}
+                filters = {this.state.filters}
+                onlyFavorites = {this.state.onlyFavorites}
+              />
+              <SortBar onSelect={(val)=>this.onSelect(val)} value={this.state.selectValue}/>
+              <EventsList elList = {this.state.renderEvents} onFavClick={(id,isFaved)=>this.onFavClick(id,isFaved)}/>
+            </>
+          )
+        }}
+          
+        />
+        <Route exact path='/event/:id' render={({match})=>{
+          debugger;
+          const el = this.state.allEvents.filter(e=>e.id===Number(match.params.id))[0];
+          if (!el) return (
+            <div>
+              Такого мероприятия не существует
+            </div>
+          )
+          return <EventPage
+            title={el.title} 
+            price = {el.price} 
+            description = {el.description} 
+            key={el.id}
+            isFavorite = {el.isFavorite}
+            onFavClick = {()=>{this.onFavClick(el.id)}}
+          />
+          }}
+        />
+        </div>
+      </Router>
+    )
   }
 }
