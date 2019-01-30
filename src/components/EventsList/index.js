@@ -1,5 +1,6 @@
 import React from 'react';
 import EventBlock from '../EventBlock';
+import {withRouter} from 'react-router-dom';
 import './index.css';
 
 const EventsList = props => {
@@ -13,6 +14,7 @@ const EventsList = props => {
           key={el.id}
           isFavorite = {el.isFavorite}
           onFavClick = {()=>{props.onFavClick(el.id)}}
+          onClick = {()=>props.history.push(`/event/${el.id}`)}
         />
       })}
     </div>)
@@ -22,4 +24,4 @@ const EventsList = props => {
   
 }
 
-export default EventsList;
+export default withRouter(EventsList);
